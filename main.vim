@@ -310,8 +310,16 @@ vmap <C-S> <C-C>:update<CR>
 imap <C-S> <C-O>:update<CR>
 
 
+
+"""""""""""""""""""""""""""""""
 " 高亮snippetmate可以补全的代码
-function! GetInputHighlightList() abort
+augroup custom_highlight " 高亮颜色设置
+  autocmd!
+  au ColorScheme * highlight InputWordMatch ctermfg=59 ctermbg=41 guifg=#34495E guibg=#2ECC71
+  au InsertEnter * highlight InputWordMatch ctermfg=59 ctermbg=41 guifg=#34495E guibg=#2ECC71
+augroup END
+
+function! GetInputHighlightList() abort " 获取触发单词列表
 	if len(g:input_highlight_list)==0
 		let list = snipMate#GetSnippetsForWordBelowCursor('', 0)
 		for l in list
@@ -321,7 +329,28 @@ function! GetInputHighlightList() abort
 		"echom g:input_highlight_list
 	endif
 endfunction
-" let list = snipMate#GetSnippetsForWordBelowCursor('', 0)
-" autocmd! InsertCharPre,TextChanged,TextChangedP,TextChangedI * call HighlightSnippetWordUnderCursor()
+
+autocmd! BufReadPost,BufNewFile   * call timer_start(200, { tid -> execute('call GetInputHighlightList()')})
+
+let g:input_highlight_list = []
+
+function! HighlightSnippetWordUnderCursor() abort " 匹配和高亮
+	" let word    = matchstr(getline('.'), '\S\+\%' . col('.') . 'c')
+	" let word = expand('<cword>')
+	let ch = matchstr(getline('.'), '\%' . col('.') . 'c.')
+	let i = (a:0 ? a:1 : mode() ==# 'i' || mode() ==# 'R') && col('.') > 1
+	let line = getline('.')
+	let word = matchstr(line[:(col('.')-i-1)], '\k*$') . matchstr(line[(col('.')-i-1):], '^\k*')[1:]
+	echo word
+	"echom word=="fun"
+	if index(g:input_highlight_list, word) >= 0
+		exec 'match' 'InputWordMatch'  ' /\%'.line('.').'l' . word . '/' 
+	else
+		match none
+	endif
+endfunction
+
+autocmd! InsertCharPre,TextChanged,TextChangedP,TextChangedI * call HighlightSnippetWordUnderCursor()
 
 
+"""""""""""""""""""""""""""""""
