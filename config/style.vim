@@ -12,6 +12,8 @@ let g:neosolarized_underline = 1
 let g:neosolarized_italic = 1
 
 Plug 'lifepillar/vim-solarized8'
+set termguicolors
+
 
 " 彩色括号
 Plug 'luochen1990/rainbow'
@@ -39,8 +41,9 @@ let g:rainbow_active = 1
 	\	}
 	\}
 	
-" 缩进显示
-Plug 'nathanaelkane/vim-indent-guides'
-let g:indent_guides_enable_on_vim_startup = 1
 
+"Mode Settings cursor光标设置
 
+let &t_SI.="\e[6 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[2 q" "EI = NORMAL mode (ELSE)

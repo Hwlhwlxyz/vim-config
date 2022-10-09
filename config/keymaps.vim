@@ -32,6 +32,7 @@ elseif has('nvim')
 endif
 
 
+
 func! CompileRunGcc()
         exec "w"
         if &filetype == 'c'
@@ -59,3 +60,33 @@ func! CompileRunGcc()
 endfunc
 
 " map <F5> :call CompileRunGcc()<CR>
+
+" 自定义键位
+" ctrl-s保存
+nmap <C-S> :update<CR>
+vmap <C-S> <C-C>:update<CR>
+imap <C-S> <C-O>:update<CR>
+
+" 复制粘贴快捷键
+vmap <C-c> "+yi
+vmap <C-x> "+c
+vmap <C-v> c<ESC>"+p
+imap <C-v> <C-r><C-o>+
+vmap <M-c> "+yi
+vmap <M-x> "+c
+vmap <M-v> c<ESC>"+p
+imap <M-v> <C-r><C-o>+
+
+
+" 插件的快捷键设置
+
+if has('win32')
+  nmap <C-/> :Commentary<CR>
+  vmap <C-/> :Commentary<CR>
+else
+  nmap <C-_> :Commentary<CR>
+  vmap <C-_> :Commentary<CR>
+endif
+
+nmap <leader>/ :Commentary<CR>
+vmap <leader>/ :Commentary<CR>

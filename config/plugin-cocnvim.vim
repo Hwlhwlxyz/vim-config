@@ -23,15 +23,19 @@ set signcolumn=yes
 " no select by `"suggest.noselect": true` in your configuration file.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+"inoremap <silent><expr> <TAB>
+"      \ coc#pum#visible() ? coc#pum#next(1) :
+"      \ CheckBackspace() ? "\<Tab>" :
+"      \ coc#refresh()
+" inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice.
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+" inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+							  
+" 替换用tab确认补全，不用tab进行上下选择
+inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! CheckBackspace() abort
@@ -40,11 +44,12 @@ function! CheckBackspace() abort
 endfunction
 
 " Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
+" if has('nvim')
+"   inoremap <silent><expr> <c-space> coc#refresh()
+" else
+"   inoremap <silent><expr> <c-@> coc#refresh()
+" endif
+
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -166,20 +171,23 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 func! s:my_colors_setup() abort
     " this is an example
 	
-    hi Pmenu guibg=#d7e5dc gui=NONE
+    hi Pmenu guibg=#d7e5dc gui=NONE cterm=NONE
     hi PmenuSel guibg=#b7c7b7 gui=NONE
-    hi PmenuSbar guibg=#bcbcbc 
+    hi PmenuSbar guibg=#bcbcbc
     hi PmenuThumb guibg=#585858
 	
-	hi CocSearch ctermfg=12 guifg=#18A3FF
-	hi CocMenuSel ctermbg=19 guibg=#D8BFD8
-	autocmd CursorHold * silent call CocActionAsync('highlight')
-	autocmd ColorScheme * highlight CocHighlightText term=bold cterm=bold ctermfg=black ctermbg=NONE gui=NONE guifg=black guibg=white
+	hi CocSearch ctermfg=69 guifg=#750550
+    hi CocMenuSel ctermbg=207 guibg=#D8BFD8
+	hi CocFloating ctermbg=NONE	guibg=#d7e5dc guifg=#B3541E
 	hi default CocHighlightText  guibg=Grey ctermbg=Cyan
 	hi default link CocHighlightRead  CocHighlightText
 	hi default link CocHighlightWrite  CocHighlightText
 	highlight CocHintSign ctermfg=grey  guifg=#A9A9A9
+	autocmd CursorHold * silent call CocActionAsync('highlight')
+	autocmd ColorScheme * highlight CocHighlightText term=bold cterm=bold ctermfg=black ctermbg=NONE gui=NONE guifg=black guibg=white
+	
 endfunc
+
 
 augroup colorscheme_coc_setup | au!
     au ColorScheme * call s:my_colors_setup()

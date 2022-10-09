@@ -269,15 +269,14 @@ set splitright
 
 LoadScript config\keymaps.vim
 
+""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/vimfiles/autoload')
 LoadScript config\plugin.vim
 LoadScript config\plugin-cocnvim.vim
 LoadScript config\plugin-python.vim
-
 LoadScript config\style.vim
-
-
 call plug#end()
+""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " windows下添加python支持 可以输入 :py3 print("hello") 来测试
 let &pythonthreedll = 'C:\Python38\python38.dll'
@@ -304,12 +303,7 @@ set cursorline
 set shortmess=aI
 set cmdheight=2
 
-" ctrl-s保存
-nmap <C-S> :update<CR>
-vmap <C-S> <C-C>:update<CR>
-imap <C-S> <C-O>:update<CR>
-
-
+set mouse=a
 
 """""""""""""""""""""""""""""""
 " 高亮snippetmate可以补全的代码
