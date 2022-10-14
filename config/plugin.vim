@@ -47,6 +47,8 @@ let g:fuzzysearch_match_spaces = 0
 
 " 配对括号和引号自动补全
 Plug 'Raimondi/delimitMate'
+let delimitMate_expand_cr = 1
+let delimitMate_expand_space = 1
 
 " nerdtree 文件夹目录
 Plug 'scrooloose/nerdtree', {'on': ['NERDTree', 'NERDTreeFocus', 'NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeFind'] }

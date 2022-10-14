@@ -35,8 +35,10 @@ set signcolumn=yes
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 							  
 " 替换用tab确认补全，不用tab进行上下选择
+"inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm()
+"                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+                              \: "<TAB>"
 
 function! CheckBackspace() abort
   let col = col('.') - 1
@@ -178,7 +180,7 @@ func! s:my_colors_setup() abort
 	
 	hi CocSearch ctermfg=69 guifg=#750550
     hi CocMenuSel ctermbg=207 guibg=#D8BFD8
-	hi CocFloating ctermbg=NONE	guibg=#d7e5dc guifg=#B3541E
+	" hi CocFloating ctermbg=NONE	guibg=#d7e5dc guifg=#B3541E
 	hi default CocHighlightText  guibg=Grey ctermbg=Cyan
 	hi default link CocHighlightRead  CocHighlightText
 	hi default link CocHighlightWrite  CocHighlightText
