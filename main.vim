@@ -273,8 +273,9 @@ LoadScript config\keymaps.vim
 call plug#begin('~/vimfiles/autoload')
 LoadScript config\plugin.vim
 LoadScript config\plugin-cocnvim.vim
-LoadScript config\plugin-python.vim
+" LoadScript config\plugin-python.vim
 LoadScript config\style.vim
+LoadScript config\my-functions.vim
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -338,6 +339,7 @@ function! HighlightSnippetWordUnderCursor() abort " 匹配和高亮
 	echo word
 	"echom word=="fun"
 	if index(g:input_highlight_list, word) >= 0
+		" echo word
 		exec 'match' 'InputWordMatch'  ' /\%'.line('.').'l' . word . '/' 
 	else
 		match none

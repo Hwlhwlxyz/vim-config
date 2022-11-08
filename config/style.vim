@@ -1,6 +1,7 @@
 " 需要放在 call plug#begin('~/vimfiles/autoload') 和 call plug#end() 之间
 
 " 颜色主题配置
+Plug 'aonemd/quietlight.vim'
 Plug 'rakr/vim-one'
 Plug 'DAddYE/soda.vim'
 Plug 'iandwelker/rose-pine-vim'

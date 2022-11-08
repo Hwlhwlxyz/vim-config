@@ -1,5 +1,20 @@
 " 需要放在 call plug#begin('~/vimfiles/autoload') 和 call plug#end() 之间
 
+Plug 'drmikehenry/vim-fixkey'
+
+" 搜索插件
+Plug 'dyng/ctrlsf.vim'
+let g:ctrlsf_search_mode = 'async'
+
+" fuzzysearch 搜索插件
+Plug 'ggVGc/vim-fuzzysearch'
+let g:fuzzysearch_prompt = 'fuzzy /'
+let g:fuzzysearch_hlsearch = 1
+let g:fuzzysearch_ignorecase = 1
+let g:fuzzysearch_max_history = 30
+let g:fuzzysearch_match_spaces = 0
+
+
 Plug 'thinca/vim-quickrun'
 let g:quickrun_config = {
 \   "_" : {
@@ -36,13 +51,7 @@ Plug 'wsdjeg/FlyGrep.vim'
 " 使用 :CtrlSF 命令进行模仿 sublime 的 grep
 Plug 'dyng/ctrlsf.vim'
 
-" fuzzysearch 搜索插件
-Plug 'ggVGc/vim-fuzzysearch'
-let g:fuzzysearch_prompt = 'fuzzy /'
-let g:fuzzysearch_hlsearch = 1
-let g:fuzzysearch_ignorecase = 1
-let g:fuzzysearch_max_history = 30
-let g:fuzzysearch_match_spaces = 0
+
 
 
 " 配对括号和引号自动补全
@@ -59,6 +68,23 @@ let g:NERDTreeHijackNetrw = 0
 map <leader>b :NERDTreeToggle %<CR>
 map <M-b> :NERDTreeToggle %<CR>
 
+" nerdtree相关设置
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+	
+
+" 函数查看插件
+Plug 'liuchengxu/vista.vim'
+let g:vista_default_executive = 'coc'
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
 
 " statusline
 Plug 'itchyny/lightline.vim'
@@ -67,9 +93,14 @@ let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified', 'helloworld' ] ]
-      \ },     
+      \             [ 'readonly', 'filename', 'modified', 'method' ] ]
+      \ },
+      \ 'component_function': {
+      \   'method': 'NearestMethodOrFunction',
+	  \   'cocstatus': 'coc#status',
+      \ },
       \ }
+
 	
 " 使用 ALT+e 会在不同窗口/标签上显示 A/B/C 等编号，然后字母直接跳转
 " Plug 't9md/vim-choosewin'
@@ -86,7 +117,10 @@ Plug 'honza/vim-snippets'
 imap <C-J> <Plug>snipMateNextOrTrigger
 smap <C-J> <Plug>snipMateNextOrTrigger
 
-
+" 定位光标
+Plug 'axlebedev/vim-find-my-cursor'
+" nnoremap <leader>c <CMD>FindCursor #657b83 500<CR>
+noremap % %<CMD>FindCursor 0 500<CR>
 
 " 快捷键显示
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
@@ -98,6 +132,18 @@ nnoremap <Space> :<c-u>WhichKey '<Space>'<CR>
 " 在终端或者浏览器中打开当前文件
 Plug 'justinmk/vim-gtfo'
 let g:gtfo#terminals = { 'win': 'cmd.exe /k' }
+
+" 编辑选中部分
+Plug 'chrisbra/NrrwRgn'
+
+" 自动保存
+Plug '907th/vim-auto-save'
+let g:auto_save = 1
+let g:auto_save_events = ["InsertLeave", "CursorHoldI"]
+
+
+" 注释高亮
+Plug 'jbgutierrez/vim-better-comments'
 
 " 彩色括号
 Plug 'luochen1990/rainbow'

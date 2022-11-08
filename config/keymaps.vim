@@ -78,7 +78,7 @@ vmap <M-v> c<ESC>"+p
 imap <M-v> <C-r><C-o>+
 
 
-" 插件的快捷键设置
+" 插件的快捷键设置，需要加载plugin.vim
 
 if has('win32')
   nmap <C-/> :Commentary<CR>
@@ -90,3 +90,7 @@ endif
 
 nmap <leader>/ :Commentary<CR>
 vmap <leader>/ :Commentary<CR>
+
+" 自定义功能的快捷键设置，需要加载my-functions.vim 
+" autocmd InsertLeave * call MySave() 
+" autocmd InsertLeave * echo 'InsertLeave'
