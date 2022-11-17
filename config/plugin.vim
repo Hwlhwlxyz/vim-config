@@ -4,7 +4,15 @@ Plug 'drmikehenry/vim-fixkey'
 
 " 搜索插件
 Plug 'dyng/ctrlsf.vim'
+nmap sf <Plug>CtrlSFPrompt
 let g:ctrlsf_search_mode = 'async'
+let g:ctrlsf_default_view_mode = 'compact'
+let g:ctrlsf_auto_focus = {
+    \ "at": "done",
+    \ "duration_less_than": 1000
+    \ }
+
+
 
 " fuzzysearch 搜索插件
 Plug 'ggVGc/vim-fuzzysearch'
@@ -13,6 +21,31 @@ let g:fuzzysearch_hlsearch = 1
 let g:fuzzysearch_ignorecase = 1
 let g:fuzzysearch_max_history = 30
 let g:fuzzysearch_match_spaces = 0
+
+" 搜索文件插件
+Plug 'ctrlpvim/ctrlp.vim'
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_working_path_mode = 'ra' 
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }	
+" 忽略文件设置
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+" 忽略gititnore的文件
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+
+" 搜索函数
+Plug 'tacahiroy/ctrlp-funky'
+nnoremap <Leader>fu :CtrlPFunky<Cr>
+" narrow the list down with a word under cursor
+nnoremap <Leader>uu :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+let g:ctrlp_funky_syntax_highlight = 1
+let g:ctrlp_funky_matchtype = 'path'
 
 
 Plug 'thinca/vim-quickrun'
@@ -113,7 +146,7 @@ let g:snipMate.scope_aliases = {}
 let g:snipMate = { 'snippet_version' : 1 }
 
 Plug 'honza/vim-snippets'
-
+" ctrl+j 触发展开片段或者下一个位置
 imap <C-J> <Plug>snipMateNextOrTrigger
 smap <C-J> <Plug>snipMateNextOrTrigger
 
@@ -137,10 +170,12 @@ let g:gtfo#terminals = { 'win': 'cmd.exe /k' }
 Plug 'chrisbra/NrrwRgn'
 
 " 自动保存
-Plug '907th/vim-auto-save'
-let g:auto_save = 1
-let g:auto_save_events = ["InsertLeave", "CursorHoldI"]
+"Plug '907th/vim-auto-save'
+"let g:auto_save = 1
+"let g:auto_save_events = ["InsertLeave", "CursorHoldI"]
 
+" 自动预览寄存器内容
+Plug 'junegunn/vim-peekaboo'
 
 " 注释高亮
 Plug 'jbgutierrez/vim-better-comments'

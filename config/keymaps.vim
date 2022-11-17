@@ -92,5 +92,5 @@ nmap <leader>/ :Commentary<CR>
 vmap <leader>/ :Commentary<CR>
 
 " 自定义功能的快捷键设置，需要加载my-functions.vim 
-" autocmd InsertLeave * call MySave() 
+autocmd InsertLeave * call MySave() 
 " autocmd InsertLeave * echo 'InsertLeave'
