@@ -11,17 +11,8 @@ endif
 " 取得本文件所在的目录
 let s:home = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
-if has('win16') || has('win95') || has('win32') || has('win64')
-    " 定义一个命令用来加载文件
-	command! -nargs=1 LoadScript exec 'so '.s:home.'/'.'<args>'
-else
-    " windows的路径
-	command! -nargs=1 LoadScript exec 'so '.s:home.'\'.'<args>'
-endif
-
-
-
-
+" 定义一个命令用来加载文件
+command! -nargs=1 LoadScript exec 'so '.s:home.'/'.'<args>'
 
 " 将 vim-init 目录加入 runtimepath
 " exec 'set rtp+='.s:home
@@ -273,7 +264,7 @@ set showcmd
 " 水平切割窗口时，默认在右边显示新窗口
 set splitright
 
-LoadScript config\keymaps.vim
+LoadScript config/keymaps.vim
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/vimfiles/autoload')
