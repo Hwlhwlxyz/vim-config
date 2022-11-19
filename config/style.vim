@@ -15,6 +15,7 @@ let g:neosolarized_italic = 1
 Plug 'lifepillar/vim-solarized8'
 set termguicolors
 
+Plug 'savq/melange'
 
 " 彩色括号
 Plug 'luochen1990/rainbow'

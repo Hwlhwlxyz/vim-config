@@ -122,19 +122,24 @@ endfunction
 " statusline
 Plug 'itchyny/lightline.vim'
 set laststatus=2
+
+function! CocCurrentFunction()
+    return get(b:, 'coc_current_function', '')
+endfunction
+
 let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified', 'method' ] ]
+      \             [ 'currentfunction', 'readonly', 'filename', 'modified', 'method' ] ]
       \ },
       \ 'component_function': {
-      \   'method': 'NearestMethodOrFunction',
-	  \   'cocstatus': 'coc#status',
+      \   'cocstatus': 'coc#status',
+      \   'currentfunction': 'CocCurrentFunction'
       \ },
       \ }
+autocmd User CocStatusChange redrawstatus
 
-	
 " 使用 ALT+e 会在不同窗口/标签上显示 A/B/C 等编号，然后字母直接跳转
 " Plug 't9md/vim-choosewin'
 
@@ -173,6 +178,9 @@ Plug 'chrisbra/NrrwRgn'
 "Plug '907th/vim-auto-save'
 "let g:auto_save = 1
 "let g:auto_save_events = ["InsertLeave", "CursorHoldI"]
+
+" 语言包插件，整合了各种语言的插件
+Plug 'sheerun/vim-polyglot'
 
 " 自动预览寄存器内容
 Plug 'junegunn/vim-peekaboo'

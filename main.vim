@@ -11,11 +11,17 @@ endif
 " 取得本文件所在的目录
 let s:home = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
-" 定义一个命令用来加载文件
-"command! -nargs=1 LoadScript exec 'so '.s:home.'/'.'<args>'
+if has('win16') || has('win95') || has('win32') || has('win64')
+    " 定义一个命令用来加载文件
+	command! -nargs=1 LoadScript exec 'so '.s:home.'/'.'<args>'
+else
+    " windows的路径
+	command! -nargs=1 LoadScript exec 'so '.s:home.'\'.'<args>'
+endif
 
-" windows的路径
-command! -nargs=1 LoadScript exec 'so '.s:home.'\'.'<args>'
+
+
+
 
 " 将 vim-init 目录加入 runtimepath
 " exec 'set rtp+='.s:home
@@ -271,11 +277,11 @@ LoadScript config\keymaps.vim
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/vimfiles/autoload')
-LoadScript config\plugin.vim
-LoadScript config\plugin-cocnvim.vim
-" LoadScript config\plugin-python.vim
-LoadScript config\style.vim
-LoadScript config\my-functions.vim
+LoadScript config/plugin.vim
+LoadScript config/plugin-cocnvim.vim
+" LoadScript config/plugin-python.vim
+LoadScript config/style.vim
+LoadScript config/my-functions.vim
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -285,13 +291,25 @@ call plug#end()
 
 "自定义设置
 set guifont=dejavu_sans_mono:h18
+" 如果windows下没有安装字体，可以先用这个，或者在gvim下输入set guifont=*
+" set guifont=Consolas:h18
 
 
-colorscheme solarized8
+
+function! MyHighlights() abort
+    "highlight Normal guifg=black
+	"au ColorScheme * highlight Normal guifg=black
+	au ColorScheme * highlight Identifier guifg=#d33682
+endfunction
+
+" 对某个主题改动其中部分设置
+augroup MyColors
+    autocmd!
+    autocmd ColorScheme solarized8_high call MyHighlights()
+augroup END
+
+colorscheme solarized8_high
 set background=light
-
-highlight Normal guifg=black
-au ColorScheme * highlight Normal guifg=black
 
 "高亮显示当前行"
 set cursorline
