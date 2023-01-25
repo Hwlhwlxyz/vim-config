@@ -17,6 +17,21 @@ set termguicolors
 
 Plug 'savq/melange'
 
+Plug 'mcchrish/zenbones.nvim'
+
+function! MyHighlights() abort
+    "highlight Normal guifg=black
+	"au ColorScheme * highlight Normal guifg=black
+	au ColorScheme * highlight Identifier guifg=#d33682
+endfunction
+
+" 对某个主题改动其中部分设置
+augroup MyColors
+    autocmd!
+    autocmd ColorScheme solarized8_high call MyHighlights()
+augroup END
+
+
 " 彩色括号
 Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1

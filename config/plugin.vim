@@ -38,6 +38,9 @@ set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 " 忽略gititnore的文件
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
+" 搜索结束后取消高亮，代替 :nohlsearch
+Plug 'romainl/vim-cool'
+let g:cool_total_matches = 1
 
 " 搜索函数
 Plug 'tacahiroy/ctrlp-funky'
@@ -60,6 +63,17 @@ Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
 
 " 注释
 Plug 'tpope/vim-commentary'
+
+if has('win32')
+  nmap <C-/> :Commentary<CR>
+  vmap <C-/> :Commentary<CR>
+else
+  nmap <C-_> :Commentary<CR>
+  vmap <C-_> :Commentary<CR>
+endif
+
+nmap <leader>/ :Commentary<CR>
+vmap <leader>/ :Commentary<CR>
 
 
 "跳转
@@ -91,6 +105,14 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'Raimondi/delimitMate'
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
+"let delimitMate_matchpairs = "(:),[:],{:}"
+
+"使用tab跳出右括号 https://stackoverflow.com/a/22357088 "tab行为在plugin-cocnvim.vim中
+fun! TabSkipBracket()
+	call feedkeys(search('\%#[]>)}]', 'n') ? "\<Right>" : "\<Tab>")
+	return ''
+endf
+"inoremap <expr> <Tab> search('\%#[]>)}]', 'n') ? '<Right>' : '<Tab>'
 
 " nerdtree 文件夹目录
 Plug 'scrooloose/nerdtree', {'on': ['NERDTree', 'NERDTreeFocus', 'NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeFind'] }
@@ -158,7 +180,7 @@ smap <C-J> <Plug>snipMateNextOrTrigger
 " 定位光标
 Plug 'axlebedev/vim-find-my-cursor'
 " nnoremap <leader>c <CMD>FindCursor #657b83 500<CR>
-noremap % %<CMD>FindCursor 0 500<CR>
+" noremap % %<CMD>FindCursor 0 500<CR>
 
 " 快捷键显示
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
@@ -180,7 +202,11 @@ Plug 'chrisbra/NrrwRgn'
 "let g:auto_save_events = ["InsertLeave", "CursorHoldI"]
 
 " 语言包插件，整合了各种语言的插件
-Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
+
+"Plug 'pangloss/vim-javascript'
+" 使luochen1990/rainbow可以跟vim-javascript插件一起生效 https://github.com/pangloss/vim-javascript/issues/184
+" autocmd FileType javascript syntax clear jsFuncBlock jsFuncArgs
 
 " 自动预览寄存器内容
 Plug 'junegunn/vim-peekaboo'
@@ -253,6 +279,9 @@ augroup END
 
 " 括号添加删除插件
 Plug 'machakann/vim-sandwich'
+
+" vimdiff替代，处理合并冲突
+Plug 'whiteinge/diffconflicts'
 
 """"""
 " git相关

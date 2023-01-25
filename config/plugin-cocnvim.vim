@@ -37,8 +37,13 @@ set signcolumn=yes
 " 替换用tab确认补全，不用tab进行上下选择
 "inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm()
 "                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" 如果遇到右括号，tab跳出括号
 inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm()
-                              \: "<TAB>"
+                              \: search('\%#[]>)}]', 'n') ? "\<Right>"
+							  \:"\<Tab>"
+"imap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm()
+"                              \: "<TAB>"
+
 
 function! CheckBackspace() abort
   let col = col('.') - 1

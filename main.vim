@@ -208,6 +208,11 @@ augroup PythonTab
 	au FileType python setlocal shiftwidth=4 tabstop=4 noexpandtab autoindent
 augroup END
 
+" js缩进设置
+augroup JavascriptTab
+	au!
+	au FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2 noexpandtab nosmarttab autoindent
+augroup END
 
 "----------------------------------------------------------------------
 " 备份设置
@@ -287,17 +292,6 @@ set guifont=dejavu_sans_mono:h18
 
 
 
-function! MyHighlights() abort
-    "highlight Normal guifg=black
-	"au ColorScheme * highlight Normal guifg=black
-	au ColorScheme * highlight Identifier guifg=#d33682
-endfunction
-
-" 对某个主题改动其中部分设置
-augroup MyColors
-    autocmd!
-    autocmd ColorScheme solarized8_high call MyHighlights()
-augroup END
 
 colorscheme solarized8_high
 set background=light
@@ -355,7 +349,6 @@ function! HighlightSnippetWordUnderCursor() abort " 匹配和高亮
 	endif
 endfunction
 
-autocmd! InsertCharPre,TextChanged,TextChangedP,TextChangedI * call HighlightSnippetWordUnderCursor()
-
+autocmd! TextChangedI * call HighlightSnippetWordUnderCursor()
 
 """""""""""""""""""""""""""""""
