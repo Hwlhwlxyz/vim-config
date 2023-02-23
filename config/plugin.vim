@@ -75,6 +75,8 @@ endif
 nmap <leader>/ :Commentary<CR>
 vmap <leader>/ :Commentary<CR>
 
+" 根据文件类型推测缩进配置
+Plug 'tpope/vim-sleuth'
 
 "跳转
 Plug 'unblevable/quick-scope'
