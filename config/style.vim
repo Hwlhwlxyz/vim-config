@@ -18,6 +18,7 @@ set termguicolors
 Plug 'savq/melange'
 
 Plug 'mcchrish/zenbones.nvim'
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 
 function! MyHighlights() abort
     "highlight Normal guifg=black

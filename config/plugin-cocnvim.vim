@@ -200,3 +200,8 @@ endfunc
 augroup colorscheme_coc_setup | au!
     au ColorScheme * call s:my_colors_setup()
 augroup END
+
+" 默认插件
+let g:coc_global_extensions = [
+      \'coc-pyright',
+      \]

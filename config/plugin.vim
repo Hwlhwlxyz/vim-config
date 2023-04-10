@@ -100,7 +100,9 @@ Plug 'wsdjeg/FlyGrep.vim'
 " 使用 :CtrlSF 命令进行模仿 sublime 的 grep
 Plug 'dyng/ctrlsf.vim'
 
-
+" 提高编辑的权限 （使用sudo编辑）
+Plug 'lambdalisue/suda.vim'
+let g:suda_smart_edit = 1
 
 
 " 配对括号和引号自动补全
