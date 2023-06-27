@@ -13,7 +13,6 @@ let g:ctrlsf_auto_focus = {
     \ }
 
 
-
 " fuzzysearch 搜索插件
 Plug 'ggVGc/vim-fuzzysearch'
 let g:fuzzysearch_prompt = 'fuzzy /'
@@ -57,6 +56,38 @@ let g:quickrun_config = {
 \       "outputter" : "message",
 \   }
 \}
+
+
+function! RunCurrentFile()
+    " get the extension of the current file
+    let ext = expand("%:e")
+
+    " construct the command to run based on the extension
+    if ext ==? 'py'
+        let cmd = 'python'
+    elseif ext ==? 'cpp'
+        let cmd = '!g++ % && ./a.out'
+    elseif ext ==? 'js'
+        let cmd = 'node'
+    elseif ext ==? 'lua'
+        let cmd = 'lua'
+    else
+        echo "Cannot run files of type ." . ext
+        return
+    endif
+
+    " execute the command
+    "execute '!' . cmd . ' %'
+	call asyncrun#run('!', {'mode':'terminal'}, cmd . ' ' . expand('%:p'))
+endfunction
+
+Plug 'skywind3000/asyncrun.vim'
+if has('win32')
+    " Command output encoding for Windows
+    let g:asyncrun_encs = 'gbk'
+endif
+nnoremap <F5> :call RunCurrentFile()<CR>
+
 
 " 表格对齐，使用命令 Tabularize
 Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
@@ -104,6 +135,9 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'lambdalisue/suda.vim'
 let g:suda_smart_edit = 1
 
+Plug 'machakann/vim-highlightedyank'
+
+
 
 " 配对括号和引号自动补全
 Plug 'Raimondi/delimitMate'
@@ -116,7 +150,7 @@ fun! TabSkipBracket()
 	call feedkeys(search('\%#[]>)}]', 'n') ? "\<Right>" : "\<Tab>")
 	return ''
 endf
-"inoremap <expr> <Tab> search('\%#[]>)}]', 'n') ? '<Right>' : '<Tab>'
+"inoremap <expr> <Tab> search('\%#[]>)}]', 'n') ? '<Right>' : '<Tab>' "在coc.nvim（plugin-cocnvim）中设置
 
 " nerdtree 文件夹目录
 Plug 'scrooloose/nerdtree', {'on': ['NERDTree', 'NERDTreeFocus', 'NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeFind'] }
@@ -135,6 +169,9 @@ autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTa
 " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
 autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+
+" 文件夹目录
+Plug 'tpope/vim-vinegar'
 	
 
 " 函数查看插件
@@ -176,10 +213,32 @@ let g:snipMate = get(g:, 'snipMate', {}) " Allow for vimrc re-sourcing
 let g:snipMate.scope_aliases = {}
 let g:snipMate = { 'snippet_version' : 1 }
 
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+
+
+" Expand
+imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+
+" Expand or jump
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+
+" Jump forward or backward
+imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+
+let g:vsnip_snippet_dir='~\vimfiles\autoload\vim-snippets\snippets'
+
+"vsnip#get_context()
+
 Plug 'honza/vim-snippets'
 " ctrl+j 触发展开片段或者下一个位置
-imap <C-J> <Plug>snipMateNextOrTrigger
-smap <C-J> <Plug>snipMateNextOrTrigger
+"imap <C-J> <Plug>snipMateNextOrTrigger
+"smap <C-J> <Plug>snipMateNextOrTrigger
 
 " 定位光标
 Plug 'axlebedev/vim-find-my-cursor'
@@ -197,7 +256,7 @@ nnoremap <Space> :<c-u>WhichKey '<Space>'<CR>
 Plug 'justinmk/vim-gtfo'
 let g:gtfo#terminals = { 'win': 'cmd.exe /k' }
 
-" 编辑选中部分
+" 编辑选中部分，在另一个窗口编辑选中的内容
 Plug 'chrisbra/NrrwRgn'
 
 " 自动保存
@@ -243,7 +302,6 @@ let g:rainbow_active = 1
 	\		'css': 0,
 	\	}
 	\}
-
 
 " 缩进颜色显示
 Plug 'nathanaelkane/vim-indent-guides'
@@ -302,3 +360,9 @@ Plug 'heavenshell/vim-jsdoc', {
   \ 'for': ['javascript', 'javascript.jsx','typescript'],
   \ 'do': 'make install'
 \}
+
+""""""
+" html
+""""""
+" 修改html标签
+Plug 'AndrewRadev/tagalong.vim'

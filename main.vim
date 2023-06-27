@@ -52,7 +52,7 @@ set cindent
 set winaltkeys=no
 
 " 关闭自动换行
-set nowrap
+set wrap
 
 " 打开功能键超时检测（终端下功能键为一串 ESC 开头的字符串）
 set ttimeout
@@ -282,7 +282,7 @@ call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
 " windows下添加python支持 可以输入 :py3 print("hello") 来测试
-"let &pythonthreedll = 'C:\Python38\python38.dll'
+let &pythonthreedll = 'C:\Users\weilun\AppData\Local\Programs\Python\Python311\python311.dll'
 
 
 "自定义设置

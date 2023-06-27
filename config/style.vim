@@ -19,6 +19,7 @@ Plug 'savq/melange'
 
 Plug 'mcchrish/zenbones.nvim'
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+Plug 'sainnhe/everforest'
 
 function! MyHighlights() abort
     "highlight Normal guifg=black
