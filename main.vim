@@ -290,7 +290,7 @@ set guifont=dejavu_sans_mono:h18
 " 如果windows下没有安装字体，可以先用这个，或者在gvim下输入set guifont=*
 " set guifont=Consolas:h18
 
-
+set renderoptions=type:directx,renmode:5,taamode:1
 
 
 colorscheme solarized8_high

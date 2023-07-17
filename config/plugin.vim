@@ -2,6 +2,8 @@
 
 Plug 'drmikehenry/vim-fixkey'
 
+Plug 'mg979/vim-xtabline'
+
 " 搜索插件
 Plug 'dyng/ctrlsf.vim'
 nmap sf <Plug>CtrlSFPrompt
