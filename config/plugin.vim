@@ -80,7 +80,7 @@ function! RunCurrentFile()
 
     " execute the command
     "execute '!' . cmd . ' %'
-	call asyncrun#run('!', {'mode':'terminal'}, cmd . ' ' . expand('%:p'))
+	call asyncrun#run('!', {'mode':'bang'}, cmd . ' ' . expand('%:p'))
 endfunction
 
 Plug 'skywind3000/asyncrun.vim'
