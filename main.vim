@@ -274,16 +274,33 @@ LoadScript config/keymaps.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/vimfiles/autoload')
 LoadScript config/plugin.vim
-LoadScript config/plugin-cocnvim.vim
+" LoadScript config/plugin-cocnvim.vim
 " LoadScript config/plugin-python.vim
 LoadScript config/style.vim
 LoadScript config/my-functions.vim
+
+
+" 选择补全引擎插件 plugin-cocnvimm  plugin-vim-lsp  custom-apm
+let g:complete_engine = 'vim-lsp' 
+
+if g:complete_engine == 'apm'
+	LoadScript config/lsp-related/plugin-apm.vim
+	LoadScript config/lsp-related/plugin-vim-vsnip.vim
+elseif g:complete_engine == 'vim-lsp'
+	LoadScript config/lsp-related/plugin-vim-vsnip.vim
+	LoadScript config/lsp-related/plugin-vim-lsp.vim
+elseif g:complete_engine == 'coc'
+	LoadScript config/lsp-related/plugin-cocnvim.vim
+endif
+
+autocmd InsertEnter * echo 'complete_engine:'. g:complete_engine 
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
 " windows下添加python支持 可以输入 :py3 print("hello") 来测试
-let &pythonthreedll = 'C:\Users\weilun\AppData\Local\Programs\Python\Python311\python311.dll'
-
+"set pythonthreedll=python311.dll
+let &pythonthreedll = expand(substitute(exepath('python.exe'), 'python.exe', 'python3[0-9][0-9].dll', ''))
+let &pythonthreehome = substitute(exepath('python.exe'), 'python.exe', '', '')
 
 "自定义设置
 set guifont=dejavu_sans_mono:h18
@@ -317,38 +334,48 @@ augroup custom_highlight " 高亮颜色设置
   au InsertEnter * highlight InputWordMatch ctermfg=59 ctermbg=41 guifg=#34495E guibg=#2ECC71
 augroup END
 
-function! GetInputHighlightList() abort " 获取触发单词列表
-	if len(g:input_highlight_list)==0
-		let list = snipMate#GetSnippetsForWordBelowCursor('', 0)
-		for l in list
-			let f = l[0]
-			call add(g:input_highlight_list, f) 
-		endfor
-		"echom g:input_highlight_list
-	endif
-endfunction
+"function! GetInputHighlightList() abort " 获取触发单词列表
+"	if len(g:input_highlight_list)==0
+"		let list = snipMate#GetSnippetsForWordBelowCursor('', 0)
+"		for l in list
+"			let f = l[0]
+"			call add(g:input_highlight_list, f) 
+"		endfor
+"		"echom g:input_highlight_list
+"	endif
+"endfunction
 
-autocmd! BufReadPost,BufNewFile   * call timer_start(200, { tid -> execute('call GetInputHighlightList()')})
+"autocmd! BufReadPost,BufNewFile   * call timer_start(200, { tid -> execute('call GetInputHighlightList()')})
 
 let g:input_highlight_list = []
 
-function! HighlightSnippetWordUnderCursor() abort " 匹配和高亮
-	" let word    = matchstr(getline('.'), '\S\+\%' . col('.') . 'c')
-	" let word = expand('<cword>')
+function! GetSnipList() abort
+	let l:sources = vsnip#source#find(bufnr('%'))
+	let l:source0 = l:sources[0]
+	let prefix_array = []
+	for s in source0
+        call add(prefix_array, s['prefix'][0])
+	endfor
+	" echo prefix_array
+	let g:input_highlight_list = prefix_array
+endfunction
+
+function! HighlightSnippetWordUnderCursor() " 匹配和高亮
 	let ch = matchstr(getline('.'), '\%' . col('.') . 'c.')
 	let i = (a:0 ? a:1 : mode() ==# 'i' || mode() ==# 'R') && col('.') > 1
 	let line = getline('.')
 	let word = matchstr(line[:(col('.')-i-1)], '\k*$') . matchstr(line[(col('.')-i-1):], '^\k*')[1:]
 	echo word
-	"echom word=="fun"
 	if index(g:input_highlight_list, word) >= 0
-		" echo word
+		echo word
 		exec 'match' 'InputWordMatch'  ' /\%'.line('.').'l' . word . '/' 
 	else
 		match none
 	endif
 endfunction
 
+autocmd! BufReadPost * call GetSnipList()
 autocmd! TextChangedI * call HighlightSnippetWordUnderCursor()
 
 """""""""""""""""""""""""""""""
+

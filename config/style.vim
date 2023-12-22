@@ -1,5 +1,24 @@
 " 需要放在 call plug#begin('~/vimfiles/autoload') 和 call plug#end() 之间
 
+" gvim半透明
+Plug 'mattn/vimtweak'
+
+" gvim半透明
+let g:transparency_ctermbg_none = 1
+Plug 'tsuyoshicho/transparency.vim'
+let g:transparency_config = {
+      \  'active'   : 99,
+      \  'inactive' : 70
+      \ }
+
+" 半透明主题
+Plug 'tribela/vim-transparent'
+let g:transparent_groups = ['Comment', 'Constant', 'Special', 'Identifier',
+                            \ 'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String',
+                            \ 'Function', 'Conditional', 'Repeat', 'Operator', 'Structure',
+                            \ 'LineNr', 'NonText', 'SignColumn', 'CursorLineNr', 'EndOfBuffer']
+
+
 " 颜色主题配置
 Plug 'aonemd/quietlight.vim'
 Plug 'rakr/vim-one'

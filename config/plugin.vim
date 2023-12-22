@@ -208,39 +208,6 @@ autocmd User CocStatusChange redrawstatus
 " 使用 ALT+e 会在不同窗口/标签上显示 A/B/C 等编号，然后字母直接跳转
 " Plug 't9md/vim-choosewin'
 
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
-let g:snipMate = get(g:, 'snipMate', {}) " Allow for vimrc re-sourcing
-let g:snipMate.scope_aliases = {}
-let g:snipMate = { 'snippet_version' : 1 }
-
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
-
-
-" Expand
-imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-
-" Expand or jump
-imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-
-" Jump forward or backward
-imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-
-let g:vsnip_snippet_dir='~\vimfiles\autoload\vim-snippets\snippets'
-
-"vsnip#get_context()
-
-Plug 'honza/vim-snippets'
-" ctrl+j 触发展开片段或者下一个位置
-"imap <C-J> <Plug>snipMateNextOrTrigger
-"smap <C-J> <Plug>snipMateNextOrTrigger
 
 " 定位光标
 Plug 'axlebedev/vim-find-my-cursor'
@@ -250,9 +217,50 @@ Plug 'axlebedev/vim-find-my-cursor'
 " 快捷键显示
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 
-nnoremap <silent> <leader>      :<c-u>WhichKey '\'<CR>
-nnoremap <silent> <localleader> :<c-u>WhichKey  '\'<CR>
-nnoremap <Space> :<c-u>WhichKey '<Space>'<CR>
+"nnoremap <silent> <leader>      :<c-u>WhichKey '\'<CR>
+"nnoremap <silent> <localleader> :<c-u>WhichKey  '\'<CR>
+"nnoremap <Space> :<c-u>WhichKey '<Space>'<CR>
+
+
+Plug 'skywind3000/vim-quickui'
+Plug 'skywind3000/vim-navigator'
+" initialize global keymap and declare prefix key
+let g:navigator = {'prefix':'<tab><tab>'}
+
+" buffer management
+let g:navigator.b = {
+            \ 'name' : '+buffer' ,
+            \ '1' : [':b1'        , 'buffer 1']        ,
+            \ '2' : [':b2'        , 'buffer 2']        ,
+            \ 'd' : [':bd'        , 'delete-buffer']   ,
+            \ 'f' : [':bfirst'    , 'first-buffer']    ,
+            \ 'h' : [':Startify'  , 'home-buffer']     ,
+            \ 'l' : [':blast'     , 'last-buffer']     ,
+            \ 'n' : [':bnext'     , 'next-buffer']     ,
+            \ 'p' : [':bprevious' , 'previous-buffer'] ,
+            \ '?' : [':Leaderf buffer'   , 'fzf-buffer']      ,
+            \ }
+
+" tab management
+let g:navigator.t = {
+            \ 'name': '+tab',
+            \ '1' : ['<key>1gt', 'tab-1'],
+            \ '2' : ['<key>2gt', 'tab-2'],
+            \ '3' : ['<key>3gt', 'tab-3'],
+            \ 'c' : [':tabnew', 'new-tab'],
+            \ 'q' : [':tabclose', 'close-current-tab'],
+            \ 'n' : [':tabnext', 'next-tab'],
+            \ 'p' : [':tabprev', 'previous-tab'],
+            \ 'o' : [':tabonly', 'close-all-other-tabs'],
+            \ }
+nnoremap <silent><tab><tab> :Navigator g:navigator<cr>
+
+let keymap = {'prefix': "<space>"}
+let keymap.x = [':tabonly', 'close-other-tabpage']
+
+" Easymotion
+let g:navigator.m = ['<plug>(easymotion-bd-w)', 'easy-motion-bd-w']
+let g:navigator.n = ['<plug>(easymotion-s)', 'easy-motion-s']
 
 " 在终端或者浏览器中打开当前文件
 Plug 'justinmk/vim-gtfo'
@@ -368,3 +376,9 @@ Plug 'heavenshell/vim-jsdoc', {
 """"""
 " 修改html标签
 Plug 'AndrewRadev/tagalong.vim'
+
+
+
+
+
+
