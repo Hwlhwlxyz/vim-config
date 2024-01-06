@@ -41,17 +41,11 @@ Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'sainnhe/everforest'
 Plug 'ayu-theme/ayu-vim'
 
-function! MyHighlights() abort
-    "highlight Normal guifg=black
-	"au ColorScheme * highlight Normal guifg=black
-	au ColorScheme * highlight Identifier guifg=#d33682
-endfunction
+" 自定义颜色主题的补丁
+Plug 'skywind3000/vim-color-patch'
+let s:current_style_path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+let g:cpatch_path = s:current_style_path.'/color-patch'
 
-" 对某个主题改动其中部分设置
-augroup MyColors
-    autocmd!
-    autocmd ColorScheme solarized8_high call MyHighlights()
-augroup END
 
 
 " 彩色括号

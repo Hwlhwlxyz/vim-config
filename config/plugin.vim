@@ -1,6 +1,8 @@
 " 需要放在 call plug#begin('~/vimfiles/autoload') 和 call plug#end() 之间
 
+" 按键相关
 Plug 'drmikehenry/vim-fixkey'
+Plug 'tpope/vim-rsi'
 
 Plug 'mg979/vim-xtabline'
 
