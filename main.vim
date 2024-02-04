@@ -10,9 +10,9 @@ endif
 
 " 取得本文件所在的目录
 let s:home = fnamemodify(resolve(expand('<sfile>:p')), ':h')
-
+let g:home = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 " 定义一个命令用来加载文件
-command! -nargs=1 LoadScript exec 'so '.s:home.'/'.'<args>'
+command! -nargs=1 LoadScript exec 'source '.s:home.'/'.'<args>'
 
 " 将 vim-init 目录加入 runtimepath
 " exec 'set rtp+='.s:home
@@ -272,7 +272,9 @@ set splitright
 LoadScript config/keymaps.vim
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
-call plug#begin('~/vimfiles/autoload')
+
+call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
+
 LoadScript config/plugin.vim
 " LoadScript config/plugin-cocnvim.vim
 " LoadScript config/plugin-python.vim
@@ -280,6 +282,9 @@ LoadScript config/style.vim
 LoadScript config/my-functions.vim
 
 
+if has('nvim')
+	let g:complete_engine = 'mason' 
+endif
 " 选择补全引擎插件 plugin-cocnvimm  plugin-vim-lsp  custom-apm
 let g:complete_engine = 'vim-lsp' 
 
@@ -293,21 +298,34 @@ elseif g:complete_engine == 'coc'
 	LoadScript config/lsp-related/plugin-cocnvim.vim
 endif
 
-autocmd InsertEnter * echo 'complete_engine:'. g:complete_engine 
+if has('nvim')
+echo 'load mason'
+	LoadScript config/lsp-related/plugin-vim-lsp.vim
+	LoadScript config/lsp-related/plugin-mason-modules.nvim.lua
+endif
+
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""
+if has('nvim')
+	let g:complete_engine = 'mason' 
+endif
+
+if g:complete_engine == 'mason'
+    LoadScript config/lsp-related/plugin-mason.nvim.lua
+endif
+autocmd InsertEnter * echo 'complete_engine:'. g:complete_engine 
 
 " windows下添加python支持 可以输入 :py3 print("hello") 来测试
 "set pythonthreedll=python311.dll
-let &pythonthreedll = expand(substitute(exepath('python.exe'), 'python.exe', 'python3[0-9][0-9].dll', ''))
-let &pythonthreehome = substitute(exepath('python.exe'), 'python.exe', '', '')
+"let &pythonthreedll = expand(substitute(exepath('python.exe'), 'python.exe', 'python3[0-9][0-9].dll', ''))
+"let &pythonthreehome = substitute(exepath('python.exe'), 'python.exe', '', '')
 
 "自定义设置
 set guifont=dejavu_sans_mono:h18
 " 如果windows下没有安装字体，可以先用这个，或者在gvim下输入set guifont=*
 " set guifont=Consolas:h18
 
-set renderoptions=type:directx,renmode:5,taamode:1
+"set renderoptions=type:directx,renmode:5,taamode:1
 
 
 colorscheme solarized8_high
@@ -374,8 +392,8 @@ function! HighlightSnippetWordUnderCursor() " 匹配和高亮
 	endif
 endfunction
 
-autocmd! BufReadPost * call GetSnipList()
-autocmd! TextChangedI * call HighlightSnippetWordUnderCursor()
+"autocmd! BufReadPost * call GetSnipList()
+"autocmd! TextChangedI * call HighlightSnippetWordUnderCursor()
 
 """""""""""""""""""""""""""""""
 

@@ -61,6 +61,20 @@ let g:quickrun_config = {
 \   }
 \}
 
+" 搜索和替换
+Plug 'brooth/far.vim'
+set lazyredraw            " improve scrolling performance when navigating through large results
+"set regexpengine=1        " use old regexp engine
+set ignorecase smartcase  " ignore case only when the pattern contains no capital letters
+
+" shortcut for far.vim find
+nnoremap <silent> <Find-Shortcut>  :Farf<cr>
+vnoremap <silent> <Find-Shortcut>  :Farf<cr>
+
+" shortcut for far.vim replace
+nnoremap <silent> <Replace-Shortcut>  :Farr<cr>
+vnoremap <silent> <Replace-Shortcut>  :Farr<cr>
+
 
 function! RunCurrentFile()
     " get the extension of the current file
@@ -82,13 +96,15 @@ function! RunCurrentFile()
 
     " execute the command
     "execute '!' . cmd . ' %'
-	call asyncrun#run('!', {'mode':'bang'}, cmd . ' ' . expand('%:p'))
+	call asyncrun#run('!', {'mode':'os'}, cmd . ' ' . expand('%:p'))
 endfunction
 
 Plug 'skywind3000/asyncrun.vim'
+let g:asyncrun_mode = 'bang'
 if has('win32')
     " Command output encoding for Windows
     let g:asyncrun_encs = 'gbk'
+	let g:asyncrun_mode = 'os'
 endif
 nnoremap <F5> :call RunCurrentFile()<CR>
 

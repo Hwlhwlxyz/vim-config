@@ -20,6 +20,7 @@ let g:transparent_groups = ['Comment', 'Constant', 'Special', 'Identifier',
 
 
 " 颜色主题配置
+Plug 'rose-pine/vim'
 Plug 'aonemd/quietlight.vim'
 Plug 'rakr/vim-one'
 Plug 'DAddYE/soda.vim'
