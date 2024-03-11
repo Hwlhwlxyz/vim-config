@@ -172,7 +172,7 @@ fun! TabSkipBracket()
 endf
 "inoremap <expr> <Tab> search('\%#[]>)}]', 'n') ? '<Right>' : '<Tab>' "在coc.nvim（plugin-cocnvim）中设置
 
-" nerdtree 文件夹目录
+" \btree 文件夹目录
 Plug 'scrooloose/nerdtree', {'on': ['NERDTree', 'NERDTreeFocus', 'NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeFind'] }
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 let g:NERDTreeMinimalUI = 1
