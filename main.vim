@@ -193,6 +193,19 @@ set wildignore+=*.msi,*.crx,*.deb,*.vfd,*.apk,*.ipa,*.bin,*.msu
 set wildignore+=*.gba,*.sfc,*.078,*.nds,*.smd,*.smc
 set wildignore+=*.linux2,*.win32,*.darwin,*.freebsd,*.linux,*.android
 
+
+
+if has('nvim')
+	set wildmenu ""
+else
+	" 命令补全
+	set wildmenu
+	set wildmode=longest:full,full
+	set wildoptions=pum
+endif
+
+
+
 " 设置tab和缩进
 set tabstop=4
 set shiftwidth=4 
