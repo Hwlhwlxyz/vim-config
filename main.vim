@@ -334,7 +334,7 @@ autocmd InsertEnter * echo 'complete_engine:'. g:complete_engine
 "let &pythonthreehome = substitute(exepath('python.exe'), 'python.exe', '', '')
 
 "自定义设置
-set guifont=dejavu_sans_mono:h18
+set guifont=dejavu\ sans\ mono:h18
 " 如果windows下没有安装字体，可以先用这个，或者在gvim下输入set guifont=*
 " set guifont=Consolas:h18
 
