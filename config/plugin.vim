@@ -16,6 +16,10 @@ let g:ctrlsf_auto_focus = {
     \ "duration_less_than": 1000
     \ }
 
+" 替换插件 <Leader>ra
+Plug 'kqito/vim-easy-replace'
+
+
 
 " fuzzysearch 搜索插件
 Plug 'ggVGc/vim-fuzzysearch'
